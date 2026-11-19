@@ -16,4 +16,11 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: link-system-db
+          property: connectionString
+
+databases:
+  - name: link-system-db
+    databaseName: linksystem
+    plan: free
