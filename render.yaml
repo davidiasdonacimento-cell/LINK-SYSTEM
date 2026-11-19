@@ -15,12 +15,3 @@ services:
         value: sixseven
       - key: ADMIN_PASSWORD
         sync: false
-      - key: DATABASE_URL
-        fromDatabase:
-          name: link-system-db
-          property: connectionString
-
-databases:
-  - name: link-system-db
-    databaseName: linksystem
-    plan: free
