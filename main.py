@@ -2,7 +2,7 @@ import os
 from urllib.parse import urlparse
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash, generate_password_hash
+from hmac import compare_digest
 from functools import wraps
 
 app = Flask(__name__)
@@ -59,7 +59,7 @@ def login():
     if request.method == "POST":
         username = os.environ.get("ADMIN_USERNAME", "sixseven")
         password = os.environ.get("ADMIN_PASSWORD", "")
-        if password and request.form.get("username", "").strip() == username and check_password_hash(generate_password_hash(password), request.form.get("password", "")):
+        if password and compare_digest(request.form.get("username", "").strip(), username) and compare_digest(request.form.get("password", ""), password):
             session.clear()
             session["owner"] = True
             return redirect(url_for("dashboard"))
